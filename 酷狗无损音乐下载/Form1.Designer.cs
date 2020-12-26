@@ -59,6 +59,7 @@
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(452, 26);
             this.textBox1.TabIndex = 0;
+            this.textBox1.KeyUp += new System.Windows.Forms.KeyEventHandler(this.textBox1_KeyUp);
             // 
             // label1
             // 
@@ -186,6 +187,7 @@
             this.resultListView.Margin = new System.Windows.Forms.Padding(2, 4, 2, 4);
             this.resultListView.Name = "resultListView";
             this.resultListView.Size = new System.Drawing.Size(518, 460);
+            this.resultListView.Sorting = System.Windows.Forms.SortOrder.Ascending;
             this.resultListView.TabIndex = 14;
             this.resultListView.UseCompatibleStateImageBehavior = false;
             this.resultListView.View = System.Windows.Forms.View.Details;

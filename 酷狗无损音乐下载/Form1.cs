@@ -117,10 +117,10 @@ namespace 酷狗无损音乐下载
                   {
                       KugouResult kg = JsonConvert.DeserializeObject<KugouResult>(x.ToString());
                       //kg.hash = x["320hash"].ToString();    //320音质的hash值
-                      if (kg.sqhash != "")
+                      if (kg.sqhash != "" || kg.hash != "")
                       {
-                          kg.key = GetMD5(kg.sqhash + "kgcloud");
-                          webSite = "http://trackercdn.kugou.com/i/?cmd=4&hash=" + kg.sqhash + "&key=" + kg.key + "&pid=1&forceDown=0&vip=1";
+                          kg.key = GetMD5((kg.sqhash == "" ? kg.hash : kg.sqhash) + "kgcloud");
+                          webSite = "http://trackercdn.kugou.com/i/?cmd=4&hash=" + (kg.sqhash=="" ? kg.hash : kg.sqhash) + "&key=" + kg.key + "&pid=1&forceDown=0&vip=1";
                           buffer = web.DownloadData(webSite);
                           html = Encoding.UTF8.GetString(buffer);
                           JObject flac = JObject.Parse(html);
@@ -228,11 +228,12 @@ namespace 酷狗无损音乐下载
 
                     if (initSuccess)
                     {
+                        //item.SubItems[]
                         XL.DownTaskParam p = new XL.DownTaskParam()
                         {
                             IsResume = 0,
                             szTaskUrl = item.Tag.ToString(),    //下载地址
-                            szFilename = item.Text +".flac",    //保存文件名
+                            szFilename = item.Text +"." + item.SubItems[2].Text,    //保存文件名
                             szSavePath = target                 //下载目录
                         };
                         IntPtr hTask = XL.XL_CreateTask(p);
@@ -290,6 +291,15 @@ namespace 酷狗无损音乐下载
         private void label1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void textBox1_KeyUp(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                page = 1;
+                GetList(page);
+            }
         }
     }
 }
